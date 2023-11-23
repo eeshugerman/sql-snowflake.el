@@ -41,7 +41,7 @@
   '("--option" "auto_completion=false"
     "--option" "friendly=false"
     "--option" "progress_bar=false"
-    "--option" "wrap=false")
+    "--option" "wrap=true")
   "List of additional options for `sql-snowflake-program'."
   :type '(repeat string)
   :group 'SQL)
@@ -77,20 +77,13 @@
   (thread-last output-string
                (replace-regexp-in-string (rx (= 7 "\r\n")) "")
                (replace-regexp-in-string (rx (= 80 space) "\r\r") "")))
-
-;; snowsql truncates output to terminal width, but we don't want it to.
-;; comint sets terminal width based on window-width.
-(defun sql-snowflake--override-window-width (func &rest args)
-  (cl-letf (((symbol-function 'window-width) (lambda () (expt 10 4))))
-    (apply func args)))
-
-
-;; TODO: do these buffer/mode-locally in hook
-;;   should be able to use `sql-interactive-mode-hook', checking `sql-product' in the hook thunk
-(add-hook 'comint-preoutput-filter-functions #'sql-snowflake--strip-junk)
-(advice-add 'comint-term-environment :around #'sql-snowflake--override-window-width)
-
-
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (when (eq sql-product 'snowflake)
+              (add-hook 'comint-preoutput-filter-functions
+                        #'sql-snowflake--strip-junk
+                        ;; make it buffer-local
+                        nil t))))
 
 
 ;; 2) Define font lock settings.  All ANSI keywords will be
