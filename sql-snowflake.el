@@ -70,8 +70,7 @@
                  :prompt-regexp (rx line-start (zero-or-more not-newline) ">")
                  :sqli-login 'sql-snowflake-login-params
                  :sqli-options 'sql-snowflake-options
-                 :sqli-comint-func #'sql-comint-snowflake
-                 )
+                 :sqli-comint-func #'sql-comint-snowflake)
 
 (defun sql-snowflake--strip-junk (output-string)
   (thread-last output-string
@@ -84,20 +83,6 @@
                         #'sql-snowflake--strip-junk
                         ;; make it buffer-local
                         nil t))))
-
-
-;; 2) Define font lock settings.  All ANSI keywords will be
-;;    highlighted automatically, so only product specific keywords
-;;    need to be defined here.
-;; (defvar sql-mode-snowflake-font-lock-keywords
-;;   '(("\\b\\(red\\|orange\\|yellow\\)\\b" . font-lock-keyword-face))
-;;   "Snowflake SQL keywords used by font-lock.")
-;; (sql-set-product-feature 'snowflake :font-lock 'sql-mode-snowflake-font-lock-keywords)
-
-;; ;; 3) Define any special syntax characters including comments and
-;; ;;    identifier characters.
-;; (sql-set-product-feature 'snowflake
-;;                          :syntax-alist ((?# . "_")))
 
 (provide 'sql-snowflake)
 ;;; sql-snowflake.el ends here

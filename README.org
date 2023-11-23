@@ -1,0 +1,23 @@
+* sql-snowflake.el
+** intro
+   This package extends Emacs' built-in =sql= package with support for [[https://www.snowflake.com][Snowflake]].
+   For now it merely wires-up =sql-interactive-mode= to [[https://docs.snowflake.com/en/user-guide/snowsql][SnowSQL]], the official CLI
+   client. Contributions adding other functionality, such as improved font-locking,
+   are encouraged.
+
+** installation
+   TODO
+
+** configuration
+   Configure connections just as you do for built-in SQL products, eg:
+   #+begin_src emacs-lisp
+     (add-to-list 'sql-connection-alist
+                  '("my snowflake connection"
+                    (sql-product 'snowflake)
+                    (sql-account "my-account")
+                    (sql-server "my-account.snowflakecomputing.com")
+                    (sql-user "my-username")
+                    (sql-password "my-password")
+                    (sql-database "my-initial-database") ;; optional
+                    (sql-warehouse "my-initial-warehouse"))) ;; optional
+   #+end_src
