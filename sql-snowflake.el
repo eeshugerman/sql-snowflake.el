@@ -3,7 +3,7 @@
 ;; Copyright (C) 2023  Elliott Shugerman
 
 ;; Author: Elliott Shugerman <eeshugerman@gmail.com>
-;; Keywords: data, tools
+;; Keywords: comm languages processes
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -49,6 +49,9 @@
 
 
 (defun sql-snowflake--build-nullable-cli-params (spec)
+  "Build a list of CLI flags/args according to SPEC.
+SPEC is an alist mapping flag names (eg \"--username\") to Lisp symbols (eg
+`sql-database'), which will be `eval'ed as variables."
   (seq-reduce
    (lambda (acc pair)
      (let ((flag (car pair))
@@ -80,9 +83,14 @@
                  :sqli-comint-func #'sql-comint-snowflake)
 
 (defun sql-snowflake--strip-junk (output-string)
+  "Remove whitespace noise from OUTPUT-STRING, which should be snowsql's output.
+It seems snowsql injects this whitespace in order to make room in the terminal
+for its completions popup. Completion functionality can be disabled, but this
+whitespace is still included in the output."
   (thread-last output-string
                (replace-regexp-in-string (rx (= 7 "\r\n")) "")
                (replace-regexp-in-string (rx (= 80 space) "\r\r") "")))
+
 (add-hook 'sql-interactive-mode-hook
           (lambda ()
             (when (eq sql-product 'snowflake)

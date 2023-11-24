@@ -35,4 +35,4 @@
                     (sql-warehouse "my-initial-warehouse"))) ;; optional
    #+end_src
 
-   Then do `M-x sql-connect` and select `my snowflake connection`.
+   Then do =M-x sql-connect= and select your connection.
