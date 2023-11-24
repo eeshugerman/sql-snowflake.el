@@ -1,15 +1,28 @@
 * sql-snowflake.el
 ** intro
-   This package extends Emacs' built-in =sql= package with support for [[https://www.snowflake.com][Snowflake]].
-   For now it merely wires-up =sql-interactive-mode= to [[https://docs.snowflake.com/en/user-guide/snowsql][SnowSQL]], the official CLI
-   client. Contributions adding other functionality, such as improved font-locking,
-   are encouraged.
+   This package extends Emacs' built-in =sql= package with support for
+   [[https://www.snowflake.com][Snowflake]]. For now it merely wires-up
+   =sql-interactive-mode= to
+   [[https://docs.snowflake.com/en/user-guide/snowsql][SnowSQL]], the official
+   CLI client. Contributions (perhaps adding other functionality, such as
+   improved font-locking) are welcome.
 
 ** installation
-   TODO
+*** SnowSQL
+    To use the =sql-interactive-mode= support, first
+    [[https://docs.snowflake.com/en/user-guide/snowsql-install-config][install SnowSQL]].
 
-** configuration
-   Configure connections just as you do for built-in SQL products, eg:
+*** the package itself
+    This package is not yet available from MELPA or ELPA. Instead, you may
+    install it directly from [[https://github.com/eeshugerman/sql-snowflake.el][the GitHub repo]]. Here's one way to do that:
+    #+begin_src emacs-lisp
+      (package-vc-install "https://github.com/eeshugerman/sql-snowflake.el")
+      (require 'sql-snowflake)
+    #+end_src
+    Other (more sophisticated) approaches might involve Quelpa or =straight.el=.
+
+** usage
+   Configure connections just as for other =sql-interactive-mode= products, eg:
    #+begin_src emacs-lisp
      (add-to-list 'sql-connection-alist
                   '("my snowflake connection"
@@ -21,3 +34,5 @@
                     (sql-database "my-initial-database") ;; optional
                     (sql-warehouse "my-initial-warehouse"))) ;; optional
    #+end_src
+
+   Then do `M-x sql-connect` and select `my snowflake connection`.
