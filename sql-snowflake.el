@@ -58,7 +58,7 @@
                      (list "--host" sql-server))
                  (if (not (string= "" sql-account))
                      (list "--accountname" sql-account))
-                 (if (and (boundp 'sql-warehouse) (not (string= "" sql-warehouse)))
+                 (if (not (string= "" sql-warehouse))
                      (list "--warehouse" sql-warehouse))
                  options)))
     (with-environment-variables (("SNOWSQL_PWD" sql-password))
