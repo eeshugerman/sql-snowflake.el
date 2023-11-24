@@ -26,6 +26,7 @@
 
 
 (require 'sql)
+(require 'seq)
 
 (defcustom sql-snowflake-program "snowsql"
   "Command to start snowsql by Snowflake."
@@ -47,20 +48,26 @@
   :group 'SQL)
 
 
+(defun sql-snowflake--build-nullable-cli-params (spec)
+  (seq-reduce
+   (lambda (acc pair)
+     (let ((flag (car pair))
+           (val (eval (cdr pair))))
+       (if (string= "" val)
+           acc
+         (cons flag (cons val acc)))))
+   spec
+   '()))
+
 (defun sql-comint-snowflake (product options &optional buf-name)
   "Connect to Snowflake in a comint buffer."
-  (let ((params (append
-                 (if (not (string= "" sql-user))
-                     (list "--username" sql-user))
-                 (if (not (string= "" sql-database))
-                     (list "--dbname" sql-database))
-                 (if (not (string= "" sql-server))
-                     (list "--host" sql-server))
-                 (if (not (string= "" sql-account))
-                     (list "--accountname" sql-account))
-                 (if (not (string= "" sql-warehouse))
-                     (list "--warehouse" sql-warehouse))
-                 options)))
+  (let ((params (append (sql-snowflake--build-nullable-cli-params
+                         '(("--username" . sql-user)
+                           ("--dbname" . sql-database)
+                           ("--host" . sql-server)
+                           ("--accountname" . sql-account)
+                           ("--warehouse" . sql-warehouse)))
+                        options)))
     (with-environment-variables (("SNOWSQL_PWD" sql-password))
       (sql-comint product params buf-name))))
 
