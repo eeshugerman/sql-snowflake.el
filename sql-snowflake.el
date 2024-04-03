@@ -80,7 +80,8 @@ SPEC is an alist mapping flag names (eg \"--username\") to Lisp symbols (eg
                  :prompt-regexp (rx line-start (zero-or-more not-newline) ">")
                  :sqli-login 'sql-snowflake-login-params
                  :sqli-options 'sql-snowflake-options
-                 :sqli-comint-func #'sql-comint-snowflake)
+                 :sqli-comint-func #'sql-comint-snowflake
+                 :password-in-comint nil)
 
 (defun sql-snowflake--strip-junk (output-string)
   "Remove whitespace noise from OUTPUT-STRING, which should be snowsql's output.
