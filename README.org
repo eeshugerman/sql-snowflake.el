@@ -9,10 +9,9 @@
 
 ** installation
 *** SnowSQL
-    To use the =sql-interactive-mode= support, first
-    [[https://docs.snowflake.com/en/user-guide/snowsql-install-config][install SnowSQL]].
+    To use the =sql-interactive-mode= support, first [[https://docs.snowflake.com/en/user-guide/snowsql-install-config][install SnowSQL]].
 
-*** the package itself
+*** this package
     This package is not yet available from MELPA or ELPA. Instead, you may
     install it directly from [[https://github.com/eeshugerman/sql-snowflake.el][the GitHub repo]]. Here's one way to do that:
     #+begin_src emacs-lisp
